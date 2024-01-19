@@ -1,0 +1,17 @@
+{
+  "name": "string-matcher",
+  "version": "1.0.0",
+  "description": "best string matcher",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "string",
+    "string-matcher",
+    "compare-strings",
+    "compare"
+  ],
+  "author": "yazilimdev",
+  "license": "ISC"
+}

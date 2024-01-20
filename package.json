@@ -1,7 +1,7 @@
 {
-  "name": "string-matcher",
+  "name": "word-matcher",
   "version": "1.0.0",
-  "description": "best string matcher",
+  "description": "best word matcher",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,8 @@
     "string",
     "string-matcher",
     "compare-strings",
-    "compare"
+    "compare",
+    "word"
   ],
   "author": "yazilimdev",
   "license": "ISC"

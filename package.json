@@ -1,5 +1,5 @@
 {
-  "name": "@yazilimdev/word-matcher",
+  "name": "word-matcher",
   "version": "1.1.0",
   "description": "word matcher",
   "main": "index.js",

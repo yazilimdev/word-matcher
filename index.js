@@ -1,7 +1,7 @@
 const Match = require("./model/match");
 const lettersMistakeList = require("./script/letters")
 
-class StringMatcher {
+class WordMatcher {
     constructor({ ngram = 2, lettersMistake = false } = {}) {
         this.ngram = ngram;
         this.lettersMistake = lettersMistake;
@@ -60,4 +60,4 @@ class StringMatcher {
     }
 }
 
-module.exports = StringMatcher;
+module.exports = WordMatcher;

@@ -1,8 +1,8 @@
 class Match {
-    constructor(index, matchIndex, matchedCount){
+    constructor(index, matchedCount, source){
         this.index = index;
-        this.matchIndex = matchIndex;
         this.matchedCount = matchedCount;
+        this.source = source;
     }
 }
 

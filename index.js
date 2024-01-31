@@ -29,33 +29,39 @@ class WordMatcher {
     matchStrings = function (str1, str2) {
         str1 = str1.replace(/\s+/g, '');
         str2 = str2.replace(/\s+/g, '');
-    
+        var bg;
+
         if (str1 === str2) return 1; if (str1.length < 2 || str2.length < 2) return 0;
         
         const bigramMap = new Map();
         for (let i = 0; i < str1.length - 1; i++) {
-            const bg = str1.substring(i, i + this.ngram);
-            bigramMap.set(bg, bigramMap.has(bg) ? new Match(bigramMap.get(bg)["index"], -1, bigramMap.get(bg)["matchedCount"] + 1) : new Match(i, -1, 1))
+            bg = str1.substring(i, i + this.ngram);
+            bigramMap.set(bg, bigramMap.has(bg) ? new Match(bigramMap.get(bg)["index"], bigramMap.get(bg)["matchedCount"] + 1, "str1") : new Match(i, 1, "str1"))
         }
-    
-        for (let i = 0; i < str2.length - 1; i++) {
-            const bg = str2.substring(i, i + this.ngram);
-            bigramMap.set(bg, bigramMap.has(bg) ?  new Match(bigramMap.get(bg)["index"], i, bigramMap.get(bg)["matchedCount"] - 1) : new Match(i, -1, 1))
-        }
-    
+
         let size = 0;
-        const bigramArr = Array.from(bigramMap);
-        for (let i = 0; i < bigramArr.length; i++) {
-            size += (bigramArr[i][1]["matchedCount"] === 0 ? 1 : 0) + (this.lettersMistake ? this.#findLettersMistake(bigramArr, i) : 0);
+        for (let i = 0; i < str2.length - 1; i++) {
+            bg = str2.substring(i, i + this.ngram);
+            if ((bigramMap.has(bg) && bigramMap.get(bg)["source"] === "str1" ? bigramMap.get(bg)["matchedCount"] : 0) > 0) {
+                bigramMap.set(bg, new Match(bigramMap.get(bg)["index"], bigramMap.get(bg)["matchedCount"] - 1, "str1"))
+                size++
+            } else {
+                bigramMap.set(bg, bigramMap.has(bg) ? new Match(bigramMap.get(bg)["index"], bigramMap.get(bg)["matchedCount"] + 1, "str2") : new Match(i, 1, "str2"))
+            }
         }
-    
+        
+        if (this.lettersMistake) {
+            const bigramArr = Array.from(bigramMap);
+            for (let i = 0; i < bigramArr.length; i++) size += this.#findLettersMistake(bigramArr, i)
+        }
+        
         return (this.ngram * size) / (str1.length + str2.length - this.ngram);
     }
 
     findBestMatch = function(targetString, targetList) {
         this.#validator(targetString, targetList);
         const ratings = [];
-        targetList.forEach(element => { ratings.push({ value: element, rate: this.matchStrings(targetString, element)}) });
+        for (let i = 0; i < targetList.length; i++) ratings.push({ index: i, value: targetList[i], rate: this.matchStrings(targetString, targetList[i])})
         return ratings.sort((a, b) => b.rate - a.rate);
     }
 }
